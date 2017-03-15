@@ -13,9 +13,9 @@ public class TictacFinal
         /**
          *
          */
+        public static String[][] gameBoard = new String[3][3];
         public static void main(String[ ]args){
            Scanner scan = new Scanner(System.in);
-           String[][] gameBoard = new String[3][3];
            for(int i = 0; i<gameBoard[0].length; i++){
                    for(int j = 0; j<gameBoard[1].length; j++){
                       gameBoard[i][j] = "+";
@@ -79,7 +79,7 @@ public class TictacFinal
         System.out.print("Column:");
         int col = scan.nextInt();
         System.out.println();
-        if(row != 0 && col != 0 && board[row-1][col-1].equals("+")) {
+        if(row > 0 && col > 0 && board[row-1][col-1].equals("+") && row<4 && col <4) {
                board[row-1][col-1] = player;
         }
         else if(row == 0 || col == 0){
@@ -131,4 +131,6 @@ public class TictacFinal
             return false;
     }
     //change
+    //change
+    
 }
