@@ -1,6 +1,7 @@
 package tictac.pkgfinal;
 
 import java.util.*;
+import java.util.InputMismatchException;
 /**
  * Write a description of class TicTacToe here.
  * 
@@ -68,6 +69,7 @@ public class TictacFinal
                     }
                    System.out.println();
                 }
+        try {
         Scanner scan = new Scanner(System.in);
         System.out.print("Row:");
         int row = scan.nextInt();
@@ -79,17 +81,17 @@ public class TictacFinal
         System.out.print("Column:");
         int col = scan.nextInt();
         System.out.println();
-        if(row > 0 && col > 0 && board[row-1][col-1].equals("+") && row<4 && col <4) {
+        if(row > 0 && col > 0  && row<4 && col <4 && board[row-1][col-1].equals("+")) {
                board[row-1][col-1] = player;
         }
         else if(row == 0 || col == 0){
            keepGoing = false;
         }
-        else {
-           System.out.println("Invalid move, try again (Row and then column, or 0 to quit.)");
-           playerMove(player, board);
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid move, try again (Row and then column, or 0 to quit.)");
+            playerMove(player, board);
+            }
         }
-    }
     public static boolean checkVictory(String player, String[][] board){
         int vert = 0;
         int hori = 0;
