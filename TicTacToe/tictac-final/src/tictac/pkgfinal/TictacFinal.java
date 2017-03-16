@@ -86,9 +86,10 @@ public class TictacFinal
         }
         else if(row == 0 || col == 0){
            keepGoing = false;
-           
-        System.out.println("Invalid move, try again (Row and then column, or 0 to quit.)");
-            playerMove(player, board);
+        }
+        else {
+           System.out.println("Invalid move, try again (Row and then column, or 0 to quit.)");
+           playerMove(player, board);
         }
         } catch (InputMismatchException e) {
             System.out.println("Invalid move, try again (Row and then column, or 0 to quit.)");
