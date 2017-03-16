@@ -165,6 +165,8 @@ public class AI {
             //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
+        System.out.println(coor[0] + " " + coor[1]);
+
         coor = canHeWin();
         if(coor[0] != -1 && moved == false){
             System.out.println("I can't win");
