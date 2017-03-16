@@ -95,18 +95,19 @@ public class AI {
                    }
                }
                    if(hori == 2){
-                   for(int j = 0; j<board[1].length; j++){
-                       if(board[i][j].equals("+")){
-                           coor[0] = i;
-                           coor[1] = j;
-                           }
+                        for(int j = 0; j<board[1].length; j++){
+                            if(board[i][j].equals("+")){
+                                coor[0] = i;
+                                coor[1] = j;
+                             }
                                
-                           }
-                       }
+                        }
+                   }
                    else{
                        hori = 0;
                    }
-                   }
+               }
+            
         for(int i = 0; i<board[0].length; i++){
                for(int j = 0; j<board[1].length; j++){
                    if(board[j][i].equals("X")){
@@ -125,7 +126,7 @@ public class AI {
                    else{
                        vert = 0;
                    }
-                   }
+        }
         if(board[0][0].equals("X")&&board[1][1].equals("X")&&board[2][2].equals("+")){
             coor[0] = 2;
             coor[1] = 2;
@@ -160,12 +161,17 @@ public class AI {
         coor = canIWin();
         if(coor[0] != -1){
             moved = true;
-            board[coor[0]][coor[1]] = "O";
+            System.out.println(coor[0] + " " + coor[1]);
+            //board[coor[0]][coor[1]] = "O";
+            AIMove(coor[0],coor[1]);
         }
         coor = canHeWin();
         if(coor[0] != -1 && moved == false){
+            System.out.println("I can't win");
             moved = true;
-            board[coor[0]][coor[1]] = "O";
+            System.out.println(coor[0] + " " + coor[1]);
+            //board[coor[0]][coor[1]] = "O";
+            AIMove(coor[0],coor[1]);
         }
         Random rand = new Random();
         int row;
@@ -174,12 +180,13 @@ public class AI {
             row = rand.nextInt(3);
             col = rand.nextInt(3);
             if(board[row][col].equals("+")){
-                board[row][col] = "O";
+                //board[row][col] = "O";
+                AIMove(row, col);
                 moved = true;
         }
             }
         }
-    /*public void AIMove(int row, int col){
+    public void AIMove(int row, int col){
         for(int i = 0; i<board.length; i++){
                    for(int j = 0; j<board[0].length; j++){
                        System.out.print(board[i][j]);
@@ -190,6 +197,4 @@ public class AI {
                board[row][col] = "O";
         }
     }
-    }
-*/
-}     
+    }     
