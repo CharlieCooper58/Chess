@@ -5,6 +5,9 @@
  */
 package tictac.pkgfinal;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author 2006572
@@ -155,6 +158,12 @@ public class AI {
      return coor;   
     }
     public void move(){
+        System.out.println("Computer is thinking...");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int[] coor = new int[2];
         coor[0] = -1;
         coor[1] = -1;
@@ -162,17 +171,13 @@ public class AI {
         coor = canIWin();
         if(coor[0] != -1){
             moved = true;
-            System.out.println(coor[0] + " " + coor[1]);
             //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
-        System.out.println(coor[0] + " " + coor[1]);
 
         coor = canHeWin();
         if(coor[0] != -1 && moved == false){
-            System.out.println("I can't win");
             moved = true;
-            System.out.println(coor[0] + " " + coor[1]);
             //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
