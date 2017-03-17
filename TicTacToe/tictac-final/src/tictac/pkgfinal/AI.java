@@ -166,7 +166,7 @@ public class AI {
                 }
         System.out.println("Computer is thinking...");
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(7000);
         } catch (InterruptedException ex) {
             Logger.getLogger(AI.class.getName()).log(Level.SEVERE, null, ex);
         }
