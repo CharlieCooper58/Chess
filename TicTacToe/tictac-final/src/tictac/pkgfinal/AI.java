@@ -30,13 +30,13 @@ public class AI {
                        if(board[i][j].equals("+")){
                            coor[0] = i;
                            coor[1] = j;
+                           hori = 0;
                            }
                                
                            }
                        }
-                   else{
                        hori = 0;
-                   }
+                   
                    }
         for(int i = 0; i<board[0].length; i++){
                for(int j = 0; j<board[1].length; j++){
@@ -49,13 +49,14 @@ public class AI {
                        if(board[j][i].equals("+")){
                            coor[0] = j;
                            coor[1] = i;
+                           vert = 0;
                            }
                                
                            }
                        }
-                   else{
+                  
                        vert = 0;
-                   }
+                   
                    }
         if(board[0][0].equals("O")&&board[1][1].equals("O")&&board[2][2].equals("+")){
             coor[0] = 2;
@@ -94,18 +95,18 @@ public class AI {
                        hori ++;
                    }
                }
-                   if(hori == 2){
-                        for(int j = 0; j<board[1].length; j++){
-                            if(board[i][j].equals("+")){
-                                coor[0] = i;
-                                coor[1] = j;
-                             }
-                               
-                        }
-                   }
-                   else{
+               if(hori == 2){
+                    for(int j = 0; j<board[1].length; j++){
+                        if(board[i][j].equals("+")){
+                            coor[0] = i;
+                            coor[1] = j;
+                            hori = 0;
+                         }
+
+                    }
+               }
                        hori = 0;
-                   }
+                   
                }
             
         for(int i = 0; i<board[0].length; i++){
@@ -119,13 +120,13 @@ public class AI {
                        if(board[j][i].equals("+")){
                            coor[0] = j;
                            coor[1] = i;
+                           vert = 0;
                            }
                                
                            }
                        }
-                   else{
                        vert = 0;
-                   }
+                   
         }
         if(board[0][0].equals("X")&&board[1][1].equals("X")&&board[2][2].equals("+")){
             coor[0] = 2;
