@@ -16,12 +16,7 @@ public class Player {
         player = p;
     }
     public void move(Board b){
-        for(int i = 0; i<b.board.length; i++){
-                   for(int j = 0; j<b.board[0].length; j++){
-                       System.out.print(b.board[i][j]);
-                    }
-                   System.out.println();
-                }
+        b.printBoard();
         try {
         Scanner scan = new Scanner(System.in);
         System.out.print("Row:");

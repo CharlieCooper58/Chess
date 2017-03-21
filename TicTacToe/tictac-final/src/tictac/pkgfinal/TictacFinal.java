@@ -29,12 +29,7 @@ public class TictacFinal
                     System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
                     if(checkVictory("X", gameBoard)){
-                        for(int i = 0; i<gameBoard.length; i++){
-                            for(int j = 0; j<gameBoard[0].length; j++){
-                                System.out.print(gameBoard[i][j]);
-                             }
-                        System.out.println();
-                     }
+                        gameBoard.printBoard();
                         System.out.println("Player 1 wins!");
                         keepGoing = false;
                         break;
@@ -46,12 +41,7 @@ public class TictacFinal
                     System.out.println("Player 2, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl2.move(gameBoard);
                     if(checkVictory("O", gameBoard)){
-                        for(int i = 0; i<gameBoard.length; i++){
-                             for(int j = 0; j<gameBoard[0].length; j++){
-                                 System.out.print(gameBoard[i][j]);
-                              }
-                        System.out.println();
-                     }
+                        gameBoard.printBoard();
                         System.out.println("Player 2 wins!");
                         keepGoing = false;
                         break;
@@ -61,12 +51,7 @@ public class TictacFinal
                    System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
                     if(checkVictory("X", gameBoard)){
-                        for(int i = 0; i<gameBoard.length; i++){
-                            for(int j = 0; j<gameBoard[0].length; j++){
-                                System.out.print(gameBoard[i][j]);
-                             }
-                        System.out.println();
-                     }
+                        gameBoard.printBoard();
                         System.out.println("Player 1 wins!");
                         keepGoing = false;
                         break;
@@ -76,12 +61,7 @@ public class TictacFinal
                     }
                     p2.move();
                     if(checkVictory("O", gameBoard)){
-                        for(int i = 0; i<gameBoard.length; i++){
-                             for(int j = 0; j<gameBoard[0].length; j++){
-                                 System.out.print(gameBoard[i][j]);
-                              }
-                        System.out.println();
-                     }
+                        gameBoard.printBoard();
                         System.out.println("Computer wins!");
                         keepGoing = false;
                         break;

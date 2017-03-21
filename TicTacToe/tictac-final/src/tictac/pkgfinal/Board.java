@@ -20,7 +20,9 @@ public class Board {
                 }
     }
     public void printBoard(){
+        System.out.println(" " + 123);
         for(int i = 0; i<board.length; i++){
+            System.out.print(i+1);
                    for(int j = 0; j<board[0].length; j++){
                        System.out.print(board[i][j]);
                     }
