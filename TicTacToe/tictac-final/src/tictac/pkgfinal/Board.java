@@ -10,6 +10,7 @@ import java.util.Scanner;
  *
  * @author 2006572
  */
+//creates the board
 public class Board {
     public String[][] board = new String[3][3];
     public Board(){
@@ -19,6 +20,7 @@ public class Board {
                     }
                 }
     }
+    //prints the board
     public void printBoard(){
         System.out.println(" " + 123);
         for(int i = 0; i<board.length; i++){

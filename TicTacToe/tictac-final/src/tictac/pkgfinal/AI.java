@@ -17,11 +17,13 @@ public class AI {
     public AI(Board board){
         b = board;
     }
+    // Checks if the computer can win
     public int[] canIWin(){
         int vert = 0;
         int hori = 0;
         int[] coor = new int[2];
         coor[0] = -1;
+        //determines if the computer has 2 in a row
         for(int i = 0; i<b.board[0].length; i++){
                for(int j = 0; j<b.board[1].length; j++){
                    if(b.board[i][j].equals("O")){
@@ -61,6 +63,7 @@ public class AI {
                        vert = 0;
                    
                    }
+        //helps the computer finish the line of 0s
         if(b.board[0][0].equals("O")&&b.board[1][1].equals("O")&&b.board[2][2].equals("+")){
             coor[0] = 2;
             coor[1] = 2;
@@ -87,11 +90,13 @@ public class AI {
         }
      return coor;   
     }
+    //Checks if the player can win
     public int[] canHeWin(){
         int vert = 0;
         int hori = 0;
         int[] coor = new int[2];
         coor[0] = -1;
+        //determines if the player has 2 in a row
         for(int i = 0; i<b.board[0].length; i++){
                for(int j = 0; j<b.board[1].length; j++){
                    if(b.board[i][j].equals("X")){
@@ -131,6 +136,7 @@ public class AI {
                        vert = 0;
                    
         }
+        //helps the AI block the players line
         if(b.board[0][0].equals("X")&&b.board[1][1].equals("X")&&b.board[2][2].equals("+")){
             coor[0] = 2;
             coor[1] = 2;
@@ -165,6 +171,9 @@ public class AI {
         } catch (InterruptedException ex) {
             Logger.getLogger(AI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        /*calls canIWin and canHeWin to determine next move
+          AI always chooses to win over blocking
+        */
         int[] coor = new int[2];
         coor[0] = -1;
         coor[1] = -1;
@@ -182,6 +191,7 @@ public class AI {
             //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
+        // Makes the initial random move
         Random rand = new Random();
         int row;
         int col;
@@ -195,6 +205,7 @@ public class AI {
         }
             }
         }
+    //determines if the place the AI wants to move is available
     public void AIMove(int row, int col){
         if(b.board[row][col].equals("+")) {
                b.board[row][col] = "O";

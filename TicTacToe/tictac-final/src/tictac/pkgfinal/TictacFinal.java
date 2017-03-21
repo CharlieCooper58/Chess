@@ -26,6 +26,7 @@ public class TictacFinal
            boolean AI = true;
            while(keepGoing){
                if(!AI){
+                   //if the player hasn't won keep the game going
                     System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
                     if(checkVictory("X", gameBoard)){
@@ -48,6 +49,7 @@ public class TictacFinal
                     }
                }
                else{
+                   //if the player wins end the game
                    System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
                     if(checkVictory("X", gameBoard)){
@@ -59,6 +61,7 @@ public class TictacFinal
                     if(!keepGoing){
                         break;
                     }
+                    //if the computer wins end the game
                     p2.move();
                     if(checkVictory("O", gameBoard)){
                         gameBoard.printBoard();
@@ -74,10 +77,11 @@ public class TictacFinal
 
 
 
-
+// determines if someone has won
     public static boolean checkVictory(String player, Board b){
         int vert = 0;
         int hori = 0;
+        //determines if someone has 3 in a row
         for(int i = 0; i<b.board[0].length; i++){
                for(int j = 0; j<b.board[1].length; j++){
                    if(b.board[i][j].equals(player)){

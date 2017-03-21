@@ -19,6 +19,7 @@ public class Player {
         b.printBoard();
         try {
         Scanner scan = new Scanner(System.in);
+        //finds out where the player wants to move
         System.out.print("Row:");
         int row = scan.nextInt();
         System.out.println();
@@ -29,9 +30,11 @@ public class Player {
         System.out.print("Column:");
         int col = scan.nextInt();
         System.out.println();
+        //puts an X in the specified coordinates
         if(row > 0 && col > 0  && row<4 && col <4 && b.board[row-1][col-1].equals("+")) {
                b.board[row-1][col-1] = player;
         }
+        //prevents the player from entering bad input
         else if(row == 0 || col == 0){
            TictacFinal.keepGoing = false;
         }
