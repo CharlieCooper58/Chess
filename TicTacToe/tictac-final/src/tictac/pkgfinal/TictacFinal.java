@@ -23,12 +23,26 @@ public class TictacFinal
            Player pl1 = new Player("X");
            Player pl2 = new Player("O");
            AI p2 = new AI(gameBoard);
-           boolean AI = true;
+           //Find out if the player wants to play alone or with a friend
+           System.out.println("Do you want to play with one player or two?  (Type \"One\" for one player, or \"Two\" for two players.");
+           String yn = scan.next();
+           boolean ai;
+           if(yn.toUpperCase().equals("ONE")){
+                ai = true;
+           }
+           else if(yn.toUpperCase().equals("TWO")){
+                ai = false;
+           }
+           else{
+               ai = false;
+           }
            while(keepGoing){
-               if(!AI){
-                   //if the player hasn't won keep the game going
+               //If the player hasn't won keep the game going
+               if(!ai){
+                   //This is the structure for the 2-player game
                     System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
+                    //If the player has won, end the game here.
                     if(checkVictory("X", gameBoard)){
                         gameBoard.printBoard();
                         System.out.println("Player 1 wins!");
@@ -49,7 +63,7 @@ public class TictacFinal
                     }
                }
                else{
-                   //if the player wins end the game
+                   //This is the structure for playing against the AI.
                    System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
                     pl1.move(gameBoard);
                     if(checkVictory("X", gameBoard)){
@@ -61,7 +75,7 @@ public class TictacFinal
                     if(!keepGoing){
                         break;
                     }
-                    //if the computer wins end the game
+                    //If the computer wins end the game
                     p2.move();
                     if(checkVictory("O", gameBoard)){
                         gameBoard.printBoard();
@@ -86,11 +100,13 @@ public class TictacFinal
                for(int j = 0; j<b.board[1].length; j++){
                    if(b.board[i][j].equals(player)){
                        hori ++;
+                       //Determines if the player has 3 in a row vertically
                        if(b.board[0][j].equals(player) && b.board[1][j].equals(player)&&b.board[2][j].equals(player)){
                             return true;
                        }
                    }
                 }
+               //Determines if a player has 3 in a row horizontally
            if(hori == 3){
                return true;
            }
@@ -98,12 +114,15 @@ public class TictacFinal
                hori = 0;
            }
         }
+        //Checks the first diagonal for victory
         if(b.board[0][0].equals(player) && b.board[1][1].equals(player) && b.board[2][2].equals(player)){
             return true;
         }
+        //Checks the other diagonal for victory
         else if(b.board[0][2].equals(player) && b.board[1][1].equals(player)&&b.board[2][0].equals(player)){
         return true;
         }
+        //Checks for a stalemate.  If full = 9, then the board is full and no one has won the game
         int full = 0;
         for(int i = 0; i<b.board[0].length; i++){
                for(int j = 0; j<b.board[1].length; j++){
@@ -119,7 +138,5 @@ public class TictacFinal
         }
             return false;
     }
-    //change
-    //change
     
 }

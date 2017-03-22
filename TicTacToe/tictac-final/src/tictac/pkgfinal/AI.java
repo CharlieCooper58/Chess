@@ -30,19 +30,23 @@ public class AI {
                        hori ++;
                    }
                }
+                //If the computer has 2 in a row, it will then figure out if the third space is
+                //open.  If it is, then it will return that space's coordinates.
                    if(hori == 2){
                    for(int j = 0; j<b.board[1].length; j++){
                        if(b.board[i][j].equals("+")){
                            coor[0] = i;
                            coor[1] = j;
-                           hori = 0;
-                           }
+                        }
                                
                            }
                        }
-                       hori = 0;
+                   //Resets hori so as not to mess over future iterations of the loop.
+                    hori = 0;
                    
                    }
+        //Determines if the computer has 2 in a column.  The code is the same as the other one,
+        //except that x and y are inverted so as to check vertically instead of horizontally.
         for(int i = 0; i<b.board[0].length; i++){
                for(int j = 0; j<b.board[1].length; j++){
                    if(b.board[j][i].equals("O")){
@@ -63,7 +67,8 @@ public class AI {
                        vert = 0;
                    
                    }
-        //helps the computer finish the line of 0s
+        //Checks the diagonals.  If 2 of the diagonal spots are O's and the third is open,
+        //the computer will move there.
         if(b.board[0][0].equals("O")&&b.board[1][1].equals("O")&&b.board[2][2].equals("+")){
             coor[0] = 2;
             coor[1] = 2;
@@ -77,21 +82,22 @@ public class AI {
             coor[1] = 0;
         }
         else if(b.board[0][2].equals("O")&&b.board[1][1].equals("+")&&b.board[2][0].equals("O")){
-            coor[0] = 0;
-            coor[1] = 2;
+            coor[0] = 1;
+            coor[1] = 1;
         }
         else if(b.board[0][2].equals("+")&&b.board[1][1].equals("O")&&b.board[2][0].equals("O")){
             coor[0] = 0;
             coor[1] = 2;
         }
         else if(b.board[0][2].equals("O")&&b.board[1][1].equals("O")&&b.board[2][0].equals("+")){
-            coor[0] = 0;
-            coor[1] = 2;
+            coor[0] = 2;
+            coor[1] = 0;
         }
      return coor;   
     }
-    //Checks if the player can win
     public int[] canHeWin(){
+        //This method is basically the same as the above method, except that it checks for X's
+        //instead of O's.  The purpose of this method is to prevent the player from winning.
         int vert = 0;
         int hori = 0;
         int[] coor = new int[2];
@@ -136,7 +142,6 @@ public class AI {
                        vert = 0;
                    
         }
-        //helps the AI block the players line
         if(b.board[0][0].equals("X")&&b.board[1][1].equals("X")&&b.board[2][2].equals("+")){
             coor[0] = 2;
             coor[1] = 2;
@@ -166,32 +171,30 @@ public class AI {
     public void move(){
         b.printBoard();
         System.out.println("Computer is thinking...");
+        //Pauses the code for one second to give the illusion that the computer is thinking.  
+        //We've found that it's disconcerting to have the computer immediately move.
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException ex) {
             Logger.getLogger(AI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*calls canIWin and canHeWin to determine next move
-          AI always chooses to win over blocking
-        */
         int[] coor = new int[2];
         coor[0] = -1;
         coor[1] = -1;
         boolean moved = false;
+        //If the computer can win the game, it will choose to do that.
         coor = canIWin();
         if(coor[0] != -1){
             moved = true;
-            //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
-
+        //If the computer can't win but the player can, the computer will prevent the player from winning.
         coor = canHeWin();
         if(coor[0] != -1 && moved == false){
             moved = true;
-            //board[coor[0]][coor[1]] = "O";
             AIMove(coor[0],coor[1]);
         }
-        // Makes the initial random move
+        // Otherwise, the computer will move at random.
         Random rand = new Random();
         int row;
         int col;
@@ -199,13 +202,12 @@ public class AI {
             row = rand.nextInt(3);
             col = rand.nextInt(3);
             if(b.board[row][col].equals("+")){
-                //board[row][col] = "O";
                 AIMove(row, col);
                 moved = true;
         }
             }
         }
-    //determines if the place the AI wants to move is available
+    //Double-checks that the desired space is available, and if it is, then the AI will move there.
     public void AIMove(int row, int col){
         if(b.board[row][col].equals("+")) {
                b.board[row][col] = "O";
