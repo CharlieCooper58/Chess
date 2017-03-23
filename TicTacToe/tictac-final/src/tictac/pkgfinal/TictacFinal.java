@@ -46,8 +46,18 @@ public class TictacFinal
                     if(checkVictory("X", gameBoard)){
                         gameBoard.printBoard();
                         System.out.println("Player 1 wins!");
-                        keepGoing = false;
-                        break;
+                        //Check if the player wants to play again
+                        System.out.println("Play again?  (Type \"Yes\" to play again).");
+                        String playAgain = scan.next();
+                        if(playAgain.toUpperCase().equals("YES")){
+                            String[] argus = new String[1];
+                            main(argus);
+                            break;
+                        }
+                        else{
+                            keepGoing = false;
+                            break;
+                        }
                     }
                     if(!keepGoing){
                         break;
@@ -58,8 +68,17 @@ public class TictacFinal
                     if(checkVictory("O", gameBoard)){
                         gameBoard.printBoard();
                         System.out.println("Player 2 wins!");
-                        keepGoing = false;
-                        break;
+                        System.out.println("Play again?  (Type \"Yes\" to play again).");
+                        String playAgain = scan.next();
+                        if(playAgain.toUpperCase().equals("YES")){
+                            String[] argus = new String[1];
+                            main(argus);
+                            break;
+                        }
+                        else{
+                            keepGoing = false;
+                            break;
+                        }
                     }
                }
                else{
@@ -69,8 +88,17 @@ public class TictacFinal
                     if(checkVictory("X", gameBoard)){
                         gameBoard.printBoard();
                         System.out.println("Player 1 wins!");
-                        keepGoing = false;
-                        break;
+                        System.out.println("Play again?  (Type \"Yes\" to play again).");
+                        String playAgain = scan.next();
+                        if(playAgain.toUpperCase().equals("YES")){
+                            String[] argus = new String[1];
+                            main(argus);
+                            break;
+                        }
+                        else{
+                            keepGoing = false;
+                            break;
+                        }
                     }
                     if(!keepGoing){
                         break;
@@ -80,8 +108,17 @@ public class TictacFinal
                     if(checkVictory("O", gameBoard)){
                         gameBoard.printBoard();
                         System.out.println("Computer wins!");
-                        keepGoing = false;
-                        break;
+                        System.out.println("Play again?  (Type \"Yes\" to play again).");
+                        String playAgain = scan.next();
+                        if(playAgain.toUpperCase().equals("YES")){
+                            String[] argus = new String[1];
+                            main(argus);
+                            break;
+                        }
+                        else{
+                            keepGoing = false;
+                            break;
+                        }
                     }
                }
 
