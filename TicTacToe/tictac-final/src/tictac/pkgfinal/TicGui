@@ -1,0 +1,198 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.applet.Applet;
+/**
+ * Class TicGui - write a description of the class here
+ * 
+ * @author (your name) 
+ * @version (a version number)
+ */
+public class TicGui extends JApplet implements Runnable, MouseListener
+{
+    // instance variables
+    Image xPiece, gameBoardPic, oPiece;
+    private int APPLET_WIDTH = 640;
+    private int frames = 0;
+    //makes the font not be size 10
+    private Font stringFont = new Font("SansSerif", Font.PLAIN, 36);
+    private int x = 0;
+    private int y = 0;
+    private int[] colPos = {180 ,290, 440};
+    private int[] rowPos = {180 ,310, 440};
+    public static int row = -1;
+    public static int col = -1;
+    int whoseTurn = 1;
+    public static boolean victory = false;
+    public static String whoWon;
+    private static int moves = 0;
+    /**
+     * Called by the browser or applet viewer to inform this JApplet that it
+     * has been loaded into the system. It is always called before the first 
+     * time that the start method is called.
+     */
+    public void init()
+    {
+        // this is a workaround for a security conflict with some browsers
+        // including some versions of Netscape & Internet Explorer which do 
+        // not allow access to the AWT system event queue which JApplets do 
+        // on startup to check access. May not be necessary with your browser. 
+       JRootPane rootPane = this.getRootPane();    
+       rootPane.putClientProperty("defeatSystemEventQueueCheck", Boolean.TRUE);
+       gameBoardPic = getImage(getDocumentBase(), "gameBoard.jpg");
+       oPiece = getImage(getDocumentBase(), "oPiece.png");
+       xPiece = getImage(getDocumentBase(), "xPiece.png");
+       addMouseListener(this);
+        // provide any initialisation necessary for your JApplet
+    }
+    
+    public void run(){
+    }
+
+    public void restart(){
+        //how the game restarts when one game is finished
+        TictacFinal.gameBoard.clearBoard();
+        victory = false;
+        TictacFinal.stalemate = false;
+        moves = 0;
+        whoseTurn= 1;
+    }
+    
+    /**
+     * Called by the browser or applet viewer to inform this JApplet that it 
+     * should start its execution. It is called after the init method and 
+     * each time the JApplet is revisited in a Web page. 
+     */
+    public void start()
+    {
+        // provide any code requred to run each time 
+        // web page is visited
+        //creates the thread and starts TictacFinal class
+        Thread th = new Thread(this);
+        th.start();
+    }
+
+    /**
+     * Paint method for applet.
+     * 
+     * @param  g   the Graphics object for this applet
+     */
+    public void paint(Graphics g)
+    {
+        //displays the images on the board 
+        g.setFont(stringFont);
+        if(victory){
+            if(TictacFinal.stalemate){
+                g.drawImage(gameBoardPic, 0, 0,640,640, this);
+                g.drawString("Stalemate.", 50 , 30);
+                g.drawString("Click anywhere to play again!", 50, 635);
+            }
+            else{
+                g.drawImage(gameBoardPic, 0, 0,640,640, this);
+                g.drawString(whoWon + " wins!", 50, 30);
+                g.drawString("Click anywhere to play again!", 50, 635);
+            }
+        } else if (moves == 0){
+            g.drawImage(gameBoardPic, 0, 0,640,640, this);
+            stringFont = new Font("SansSerif", Font.PLAIN, 24);
+            g.drawString("Click the left column for two player", 50, 600);
+            g.drawString("Click the right column for one player", 50, 635);
+            stringFont = new Font("SansSerif", Font.PLAIN, 36);
+        }
+        else if(whoseTurn == 1){
+            g.drawImage(gameBoardPic, 0, 0,640,640, this);
+            g.drawString("Player 1, take your turn", 50, 30);
+        }
+        else if (whoseTurn == 2){
+            g.drawImage(gameBoardPic, 0, 0,640,640, this);
+            g.drawString("Player 2, it's your turn", 50, 30);
+        }
+        //goes through the board placing x's and o's where necessary
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(TictacFinal.gameBoard.board[i][j].equals("X")){
+                    g.drawImage(xPiece, rowPos[j] - 40, colPos[i] - 35,80,80, this);
+                } else if(TictacFinal.gameBoard.board[i][j].equals("O")){
+                    g.drawImage(oPiece, rowPos[j] - 40, colPos[i]-35,90,90, this);
+                }
+            }
+        }
+    }
+    
+    public void mouseClicked(MouseEvent arg0) {
+        //listens for mouse and returns the row and column that the user clicked in.
+        int[] coor = new int[2];
+        x = arg0.getX();
+        y = arg0.getY();
+        //hit boxes for the column and row that the player clicks in
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(Math.abs(x-(colPos[i] +20)) < 55){
+                    col = i;
+                    coor[0] = col;
+                } 
+                if(Math.abs(y-(rowPos[j]+20)) < 55){
+                    row = j;
+                    coor[1] = row;
+                } 
+            }
+        }
+        //if the game hasn't started it asks for one or two player
+        if(moves == 0){
+            if(col == 0){
+                TictacFinal.ai = false;
+                moves++;
+                repaint();
+            } else if(col == 2){
+                TictacFinal.ai = true;
+                moves++;
+                repaint();
+            }      
+        }
+        //if the game is still going this tells it who to move
+         else if(!victory){
+            if(!TictacFinal.ai){
+                if(whoseTurn == 1 && row > -1 && col > -1){
+                    TictacFinal.runTurn(whoseTurn);
+                    whoseTurn ++;
+                    row = -1;
+                    col = -1;
+                    moves++;
+                    repaint();
+                }
+                else if (whoseTurn == 2 && row>-1 && col > -1){
+                    TictacFinal.runTurn(whoseTurn);
+                    whoseTurn --;
+                    row = -1;
+                    col = -1;
+                    moves++;
+                    repaint();
+                }
+            } else {
+                if(whoseTurn == 1 && row > -1){
+                    TictacFinal.runTurn(whoseTurn);
+                    row = -1;
+                    repaint();
+                }
+                else if (whoseTurn == 2 && row>-1){
+                    TictacFinal.runTurn(whoseTurn);
+                    row = -1;
+                    repaint();
+                }
+            }
+        } else {
+            restart();
+            repaint();
+        }
+    }
+    public static int getRow(){
+        return row;
+    }
+    public static int getCol(){
+        return col;
+    }
+    public void mouseExited(MouseEvent arg0) {}
+    public void mouseEntered(MouseEvent arg0) {}
+    public void mousePressed(MouseEvent arg0) {}
+    public void mouseReleased(MouseEvent arg0) {}
+}
