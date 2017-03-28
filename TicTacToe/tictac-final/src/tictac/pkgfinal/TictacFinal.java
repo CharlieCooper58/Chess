@@ -57,12 +57,13 @@ public class TictacFinal
                      TicGui.whoWon = "Stalemate";
                      return;
                 }
-            }
+            
           p2.move();
           if(checkVictory("O", gameBoard)){
                TicGui.victory = true;
                TicGui.whoWon = "Computer";
            }
+        }
        }
            
     
