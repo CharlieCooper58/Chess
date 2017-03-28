@@ -1,7 +1,8 @@
-package tictac.pkgfinal;
-
 import java.util.*;
 import java.util.InputMismatchException;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * Write a description of class TicTacToe here.
  * 
@@ -11,131 +12,68 @@ import java.util.InputMismatchException;
 public class TictacFinal
 {
     public static boolean keepGoing = true;
-        /**
-         *
-         */
-        public static void main(String[ ]args){
-           Board gameBoard = new Board();
-
-           Scanner scan = new Scanner(System.in);
+    public static Board gameBoard = new Board();
+    public static String yn = "g";
+    public static boolean ai = true;
            int col;
            int row;
-           Player pl1 = new Player("X");
-           Player pl2 = new Player("O");
-           AI p2 = new AI(gameBoard);
-           //Find out if the player wants to play alone or with a friend
-           System.out.println("Do you want to play with one player or two?  (Type \"One\" for one player, or \"Two\" for two players.");
-           String yn = scan.next();
-           boolean ai;
-           if(yn.toUpperCase().equals("ONE")){
-                ai = true;
-           }
-           else if(yn.toUpperCase().equals("TWO")){
-                ai = false;
-           }
-           else{
-               ai = false;
-           }
-           while(keepGoing){
-               //If the player hasn't won keep the game going
-               if(!ai){
-                   //This is the structure for the 2-player game
-                    System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
-                    pl1.move(gameBoard);
-                    //If the player has won, end the game here.
-                    if(checkVictory("X", gameBoard)){
-                        gameBoard.printBoard();
-                        System.out.println("Player 1 wins!");
-                        //Check if the player wants to play again
-                        System.out.println("Play again?  (Type \"Yes\" to play again).");
-                        String playAgain = scan.next();
-                        if(playAgain.toUpperCase().equals("YES")){
-                            String[] argus = new String[1];
-                            main(argus);
-                            break;
-                        }
-                        else{
-                            keepGoing = false;
-                            break;
-                        }
-                    }
-                    if(!keepGoing){
-                        break;
-                    }
-
-                    System.out.println("Player 2, where do you want to go? (Row and then column, or 0 to quit.)");
-                    pl2.move(gameBoard);
-                    if(checkVictory("O", gameBoard)){
-                        gameBoard.printBoard();
-                        System.out.println("Player 2 wins!");
-                        System.out.println("Play again?  (Type \"Yes\" to play again).");
-                        String playAgain = scan.next();
-                        if(playAgain.toUpperCase().equals("YES")){
-                            String[] argus = new String[1];
-                            main(argus);
-                            break;
-                        }
-                        else{
-                            keepGoing = false;
-                            break;
-                        }
-                    }
+    public static Player pl1 = new Player("X");
+    public static Player pl2 = new Player("O");
+    public static AI p2 = new AI(gameBoard);
+    public static boolean stalemate;
+    public static void runTurn(int player){
+          //If the player hasn't won keep the game going
+          if(!ai){
+               //This is the structure for the 2-player game
+               if(player == 1)
+                   pl1.move(gameBoard);
+               else
+                   pl2.move(gameBoard);              
+               //If the player has won, end the game here.
+               if(checkVictory("X", gameBoard)){
+                   TicGui.victory = true;
+                   TicGui.whoWon = "Player 1";                 
                }
-               else{
-                   //This is the structure for playing against the AI.
-                   System.out.println("Player 1, where do you want to go? (Row and then column, or 0 to quit.)");
-                    pl1.move(gameBoard);
-                    if(checkVictory("X", gameBoard)){
-                        gameBoard.printBoard();
-                        System.out.println("Player 1 wins!");
-                        System.out.println("Play again?  (Type \"Yes\" to play again).");
-                        String playAgain = scan.next();
-                        if(playAgain.toUpperCase().equals("YES")){
-                            String[] argus = new String[1];
-                            main(argus);
-                            break;
-                        }
-                        else{
-                            keepGoing = false;
-                            break;
-                        }
-                    }
-                    if(!keepGoing){
-                        break;
-                    }
-                    //If the computer wins end the game
-                    p2.move();
-                    if(checkVictory("O", gameBoard)){
-                        gameBoard.printBoard();
-                        System.out.println("Computer wins!");
-                        System.out.println("Play again?  (Type \"Yes\" to play again).");
-                        String playAgain = scan.next();
-                        if(playAgain.toUpperCase().equals("YES")){
-                            String[] argus = new String[1];
-                            main(argus);
-                            break;
-                        }
-                        else{
-                            keepGoing = false;
-                            break;
-                        }
-                    }
+               else if(stalemate){
+                   TicGui.victory = true;
+                   TicGui.whoWon = "Stalemate";
                }
-
-
+               else if(checkVictory("O", gameBoard)){
+                   TicGui.victory = true;
+                   TicGui.whoWon = "Player 2";
+               }
+          }
+          else{
+                //This is the structure for playing against the AI.
+                pl1.move(gameBoard);
+                if(checkVictory("X", gameBoard)){
+                     keepGoing = false;
+                     TicGui.victory = true;
+                     TicGui.whoWon = "Player 1";
+                     return;
+                }
+                else if(stalemate){
+                     TicGui.victory = true;
+                     TicGui.whoWon = "Stalemate";
+                     return;
+                }
             }
-    }
-
-
-
-// determines if someone has won
+          p2.move();
+          if(checkVictory("O", gameBoard)){
+               TicGui.victory = true;
+               TicGui.whoWon = "Computer";
+           }
+       }
+           
+    
+    // determines if someone has won
     public static boolean checkVictory(String player, Board b){
         int vert = 0;
         int hori = 0;
         //determines if someone has 3 in a row
         for(int i = 0; i<b.board[0].length; i++){
-               for(int j = 0; j<b.board[1].length; j++){
-                   if(b.board[i][j].equals(player)){
+             for(int j = 0; j<b.board[1].length; j++){
+                  if(b.board[i][j].equals(player)){
                        hori ++;
                        //Determines if the player has 3 in a row vertically
                        if(b.board[0][j].equals(player) && b.board[1][j].equals(player)&&b.board[2][j].equals(player)){
@@ -143,13 +81,13 @@ public class TictacFinal
                        }
                    }
                 }
-               //Determines if a player has 3 in a row horizontally
-           if(hori == 3){
-               return true;
-           }
-           else{
-               hori = 0;
-           }
+             //Determines if a player has 3 in a row horizontally
+             if(hori == 3){
+                  return true;
+             }
+             else{
+                  hori = 0;
+             }
         }
         //Checks the first diagonal for victory
         if(b.board[0][0].equals(player) && b.board[1][1].equals(player) && b.board[2][2].equals(player)){
@@ -157,7 +95,7 @@ public class TictacFinal
         }
         //Checks the other diagonal for victory
         else if(b.board[0][2].equals(player) && b.board[1][1].equals(player)&&b.board[2][0].equals(player)){
-        return true;
+            return true;
         }
         //Checks for a stalemate.  If full = 9, then the board is full and no one has won the game
         int full = 0;
@@ -169,11 +107,12 @@ public class TictacFinal
                    }
                 }
         if(full == 9){
-            System.out.println("Stalemate");
             keepGoing = false;
+            stalemate = true;
+            full = 0;
             return false;
+
         }
-            return false;
+        return false;
     }
-    
 }
