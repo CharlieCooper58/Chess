@@ -47,10 +47,11 @@ public class TicGui extends JApplet implements Runnable, MouseListener
     }
     
     public void run(){
+        // This method needs to be overridden, but we leave it blank because we don't need to implement it.
     }
 
     public void restart(){
-        //how the game restarts when one game is finished
+        //How the game restarts when one game is finished.  This code will reset everything that needs to be reset to allow for a new game from scratch.
         TictacFinal.gameBoard.clearBoard();
         victory = false;
         TictacFinal.stalemate = false;
@@ -83,16 +84,19 @@ public class TicGui extends JApplet implements Runnable, MouseListener
         g.setFont(stringFont);
         if(victory){
             if(TictacFinal.stalemate){
+                //If there is a stalemate, the game will inform the player that it's a stalemate and prompt to play again.
                 g.drawImage(gameBoardPic, 0, 0,640,640, this);
                 g.drawString("Stalemate.", 50 , 30);
                 g.drawString("Click anywhere to play again!", 50, 635);
             }
             else{
+                //The computer will congratulate whonmever has won (determined in TictacFinal), and prompt the player to play again.
                 g.drawImage(gameBoardPic, 0, 0,640,640, this);
                 g.drawString(whoWon + " wins!", 50, 30);
                 g.drawString("Click anywhere to play again!", 50, 635);
             }
         } else if (moves == 0){
+            //Prompts the player as to whether they want AI at the start of the game.
             g.drawImage(gameBoardPic, 0, 0,640,640, this);
             stringFont = new Font("SansSerif", Font.PLAIN, 24);
             g.drawString("Click the left column for two player", 50, 600);
@@ -100,10 +104,12 @@ public class TicGui extends JApplet implements Runnable, MouseListener
             stringFont = new Font("SansSerif", Font.PLAIN, 36);
         }
         else if(whoseTurn == 1){
+            //If it's player one's turn, tell player one to go.
             g.drawImage(gameBoardPic, 0, 0,640,640, this);
             g.drawString("Player 1, take your turn", 50, 30);
         }
         else if (whoseTurn == 2){
+            //If it's player two's turn, tell player two to go.
             g.drawImage(gameBoardPic, 0, 0,640,640, this);
             g.drawString("Player 2, it's your turn", 50, 30);
         }
@@ -150,6 +156,7 @@ public class TicGui extends JApplet implements Runnable, MouseListener
             }      
         }
         //if the game is still going this tells it who to move
+        //This loop is separated between ai and not ai so that if you have ai on, the game will always prompt player 1 to move.
          else if(!victory){
             if(!TictacFinal.ai){
                 if(whoseTurn == 1 && row > -1 && col > -1){
