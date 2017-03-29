@@ -13,6 +13,7 @@ public class Board {
             }
         }
     }
+    //Clears the board for the next game.
     public void clearBoard(){
         for(int i = 0; i<board[0].length; i++){
             for(int j = 0; j< board[1].length; j++){
