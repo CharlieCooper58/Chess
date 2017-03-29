@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 public class TictacFinal
 {
     //Initialize the players, the computer and all necessary variables.
+    public static boolean keepGoing = true;
     public static Board gameBoard = new Board();
     public static boolean ai = true;
     int col;
@@ -46,11 +47,13 @@ public class TictacFinal
                 //This is the structure for playing against the AI.
                 pl1.move(gameBoard);
                 if(checkVictory("X", gameBoard)){
+                     keepGoing = false;
                      TicGui.victory = true;
                      TicGui.whoWon = "Player 1";
                      return;
                 }
                 else if(stalemate){
+                     keepGoing = false;
                      TicGui.victory = true;
                      TicGui.whoWon = "Stalemate";
                      return;
@@ -106,6 +109,7 @@ public class TictacFinal
                    }
                 }
         if(full == 9){
+            keepGoing = false;
             stalemate = true;
             full = 0;
             return false;
